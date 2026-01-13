@@ -51,3 +51,6 @@ map("n", "<leader>tt", "<cmd>terminal<cr>", { desc = "Open terminal" })
 
 -- Folder view (like VS Code sidebar)
 map("n", "<leader>b", "<cmd>Neotree toggle<cr>", { desc = "Toggle folder view" })
+
+-- Fuzzy find files (like VS Code Ctrl+P)
+map("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Find files" })

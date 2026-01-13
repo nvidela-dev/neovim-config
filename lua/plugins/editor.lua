@@ -1,5 +1,13 @@
 -- Editor enhancements for zen master coding
 return {
+  -- Disable snacks explorer (using neo-tree instead)
+  {
+    "folke/snacks.nvim",
+    opts = {
+      explorer = { enabled = false },
+    },
+  },
+
   -- Better comments
   {
     "folke/todo-comments.nvim",
