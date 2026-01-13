@@ -24,7 +24,7 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width
 -- Buffer navigation
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+map("n", "<leader>x", "<cmd>bdelete<cr>", { desc = "Close buffer" })
 
 -- Stay in visual mode when indenting
 map("v", "<", "<gv", { desc = "Indent left" })
@@ -48,3 +48,6 @@ map("x", "p", [["_dP]], { desc = "Paste without yanking" })
 
 -- Quick access to terminal
 map("n", "<leader>tt", "<cmd>terminal<cr>", { desc = "Open terminal" })
+
+-- Folder view (like VS Code sidebar)
+map("n", "<leader>b", "<cmd>Neotree toggle<cr>", { desc = "Toggle folder view" })
