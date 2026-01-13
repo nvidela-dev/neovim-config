@@ -1,11 +1,48 @@
--- Editor enhancements for zen master coding
+-- Editor enhancements
 return {
-  -- Disable snacks explorer (using neo-tree instead)
+  -- Configure blink.cmp to respect toggle
+  {
+    "saghen/blink.cmp",
+    opts = {
+      enabled = function()
+        return vim.g.cmp_enabled ~= false
+      end,
+    },
+  },
+
+  -- Snacks config
   {
     "folke/snacks.nvim",
     opts = {
       explorer = { enabled = false },
+      picker = {
+        sources = {
+          files = {
+            hidden = true,
+            ignored = true,
+          },
+          grep = {
+            hidden = true,
+            ignored = true,
+          },
+        },
+        win = {
+          input = {
+            keys = {
+              ["<Esc>"] = { "close", mode = { "n", "i" } },
+            },
+          },
+        },
+      },
     },
+    config = function(_, opts)
+      require("snacks").setup(opts)
+      -- Fix dark path colors in picker
+      vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#999999" })
+      vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#cccccc" })
+      vim.api.nvim_set_hl(0, "SnacksPickerPathHidden", { fg = "#888888" })
+      vim.api.nvim_set_hl(0, "SnacksPickerPath", { fg = "#999999" })
+    end,
   },
 
   -- Better comments
@@ -226,28 +263,4 @@ return {
     },
   },
 
-  -- Which-key (already in LazyVim but customize)
-  {
-    "folke/which-key.nvim",
-    opts = {
-      plugins = { spelling = true },
-      defaults = {
-        mode = { "n", "v" },
-        ["g"] = { name = "+goto" },
-        ["gs"] = { name = "+surround" },
-        ["]"] = { name = "+next" },
-        ["["] = { name = "+prev" },
-        ["<leader><tab>"] = { name = "+tabs" },
-        ["<leader>c"] = { name = "+code" },
-        ["<leader>f"] = { name = "+file/find" },
-        ["<leader>g"] = { name = "+git" },
-        ["<leader>gh"] = { name = "+hunks" },
-        ["<leader>q"] = { name = "+quit/session" },
-        ["<leader>s"] = { name = "+search" },
-        ["<leader>u"] = { name = "+ui" },
-        ["<leader>w"] = { name = "+windows" },
-        ["<leader>x"] = { name = "+diagnostics/quickfix" },
-      },
-    },
-  },
 }

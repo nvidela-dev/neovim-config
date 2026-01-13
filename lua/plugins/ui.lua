@@ -1,5 +1,19 @@
--- UI enhancements with Claude aesthetic
+-- UI enhancements
 return {
+  -- Horizon colorscheme
+  {
+    "akinsho/horizon.nvim",
+    version = "*",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("horizon")
+    end,
+  },
+
+  -- Disable bufferline (no tabs)
+  { "akinsho/bufferline.nvim", enabled = false },
+
   -- Dashboard with Claude branding
   {
     "nvimdev/dashboard-nvim",
@@ -36,10 +50,10 @@ return {
         config = {
           header = vim.split(logo, "\n"),
           center = {
-            { action = "Telescope find_files", desc = " Find file", icon = " ", key = "f" },
+            { action = "lua Snacks.picker.git_files()", desc = " Find file", icon = " ", key = "f" },
             { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
-            { action = "Telescope oldfiles", desc = " Recent files", icon = " ", key = "r" },
-            { action = "Telescope live_grep", desc = " Find text", icon = " ", key = "g" },
+            { action = "lua Snacks.picker.recent()", desc = " Recent files", icon = " ", key = "r" },
+            { action = "lua Snacks.picker.grep()", desc = " Find text", icon = " ", key = "g" },
             { action = [[lua LazyVim.pick.config_files()()]], desc = " Config", icon = " ", key = "c" },
             { action = 'lua require("persistence").load()', desc = " Restore Session", icon = " ", key = "s" },
             { action = "LazyExtras", desc = " Lazy Extras", icon = " ", key = "x" },
@@ -224,49 +238,6 @@ return {
         extensions = { "neo-tree", "lazy" },
       }
     end,
-  },
-
-  -- Bufferline with Claude colors
-  {
-    "akinsho/bufferline.nvim",
-    opts = {
-      options = {
-        mode = "buffers",
-        separator_style = "thin",
-        show_buffer_close_icons = false,
-        show_close_icon = false,
-        diagnostics = "nvim_lsp",
-        always_show_bufferline = true,
-        indicator = {
-          style = "underline",
-        },
-        offsets = {
-          {
-            filetype = "neo-tree",
-            text = "Neo-tree",
-            highlight = "Directory",
-            text_align = "left",
-          },
-        },
-      },
-      highlights = {
-        fill = { bg = "#171412" },
-        background = { bg = "#1C1917", fg = "#78716C" },
-        buffer_selected = { bg = "#1C1917", fg = "#E7E5E4", bold = true, italic = false },
-        buffer_visible = { bg = "#1C1917", fg = "#A8A29E" },
-        indicator_selected = { fg = "#DA7756" },
-        indicator_visible = { fg = "#57534E" },
-        separator = { fg = "#171412", bg = "#1C1917" },
-        separator_selected = { fg = "#171412" },
-        separator_visible = { fg = "#171412" },
-        modified = { fg = "#DA7756" },
-        modified_selected = { fg = "#DA7756" },
-        tab_selected = { fg = "#DA7756" },
-        duplicate = { fg = "#78716C", italic = true },
-        duplicate_selected = { fg = "#A8A29E", italic = true },
-        duplicate_visible = { fg = "#78716C", italic = true },
-      },
-    },
   },
 
   -- Noice for nice command line UI
