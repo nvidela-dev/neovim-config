@@ -92,153 +92,36 @@ return {
     end,
   },
 
-  -- Lualine with Claude colors
+  -- Minimal statusline - folder name + file path
   {
     "nvim-lualine/lualine.nvim",
-    opts = function()
-      local colors = {
-        bg = "#171412",
-        fg = "#E7E5E4",
-        orange = "#DA7756",
-        tan = "#C4A574",
-        stone = "#78716C",
-        green = "#84CC16",
-        red = "#EF4444",
-        yellow = "#F59E0B",
-      }
-
-      local claude_theme = {
-        normal = {
-          a = { bg = colors.orange, fg = colors.bg, gui = "bold" },
-          b = { bg = "#292524", fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.stone },
-        },
-        insert = {
-          a = { bg = colors.green, fg = colors.bg, gui = "bold" },
-          b = { bg = "#292524", fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.stone },
-        },
-        visual = {
-          a = { bg = colors.tan, fg = colors.bg, gui = "bold" },
-          b = { bg = "#292524", fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.stone },
-        },
-        replace = {
-          a = { bg = colors.red, fg = colors.bg, gui = "bold" },
-          b = { bg = "#292524", fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.stone },
-        },
-        command = {
-          a = { bg = colors.yellow, fg = colors.bg, gui = "bold" },
-          b = { bg = "#292524", fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.stone },
-        },
-        inactive = {
-          a = { bg = colors.bg, fg = colors.stone },
-          b = { bg = colors.bg, fg = colors.stone },
-          c = { bg = colors.bg, fg = colors.stone },
-        },
-      }
-
-      return {
-        options = {
-          theme = claude_theme,
-          globalstatus = true,
-          disabled_filetypes = { statusline = { "dashboard", "alpha" } },
-          component_separators = { left = "│", right = "│" },
-          section_separators = { left = "", right = "" },
-        },
-        sections = {
-          lualine_a = {
-            {
-              "mode",
-              fmt = function(str)
-                return str:sub(1, 1)
-              end,
-            },
-          },
-          lualine_b = { "branch" },
-          lualine_c = {
-            {
-              "diagnostics",
-              symbols = {
-                error = " ",
-                warn = " ",
-                info = " ",
-                hint = " ",
-              },
-            },
-            { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-            { "filename", path = 1 },
-          },
-          lualine_x = {
-            {
-              function()
-                return require("noice").api.status.command.get()
-              end,
-              cond = function()
-                return package.loaded["noice"] and require("noice").api.status.command.has()
-              end,
-              color = { fg = colors.tan },
-            },
-            {
-              function()
-                return require("noice").api.status.mode.get()
-              end,
-              cond = function()
-                return package.loaded["noice"] and require("noice").api.status.mode.has()
-              end,
-              color = { fg = colors.orange },
-            },
-            {
-              function()
-                return "  " .. require("dap").status()
-              end,
-              cond = function()
-                return package.loaded["dap"] and require("dap").status() ~= ""
-              end,
-              color = { fg = colors.orange },
-            },
-            {
-              require("lazy.status").updates,
-              cond = require("lazy.status").has_updates,
-              color = { fg = colors.orange },
-            },
-            {
-              "diff",
-              symbols = {
-                added = " ",
-                modified = " ",
-                removed = " ",
-              },
-              source = function()
-                local gitsigns = vim.b.gitsigns_status_dict
-                if gitsigns then
-                  return {
-                    added = gitsigns.added,
-                    modified = gitsigns.changed,
-                    removed = gitsigns.removed,
-                  }
-                end
-              end,
-            },
-          },
-          lualine_y = {
-            { "progress", separator = " ", padding = { left = 1, right = 0 } },
-            { "location", padding = { left = 0, right = 1 } },
-          },
-          lualine_z = {
-            {
-              function()
-                return " " .. os.date("%H:%M")
-              end,
-            },
+    opts = {
+      options = {
+        globalstatus = true,
+        component_separators = "",
+        section_separators = "",
+      },
+      sections = {
+        lualine_a = {
+          {
+            function()
+              return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+            end,
+            color = { bg = "#DA7756", fg = "#1C1917", gui = "bold" },
+            separator = { right = "" },
           },
         },
-        extensions = { "neo-tree", "lazy" },
-      }
-    end,
+        lualine_b = {},
+        lualine_c = { { "filename", path = 1, color = { fg = "#999999" } } },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+    },
   },
+
+  -- Disable winbar breadcrumbs
+  { "utilyre/barbecue.nvim", enabled = false },
 
   -- Noice for nice command line UI
   {

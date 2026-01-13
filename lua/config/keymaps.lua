@@ -24,10 +24,11 @@ map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 map("x", "p", [["_dP]], { desc = "Paste without yanking" })
 
 -- Folder view (like VS Code sidebar)
+pcall(vim.keymap.del, "n", "<leader>b")
 map("n", "<leader>b", "<cmd>Neotree toggle<cr>", { desc = "Toggle folder view" })
 
--- Fuzzy find files (git files only)
-map("n", "<C-p>", function() Snacks.picker.git_files() end, { desc = "Find files (git)" })
+-- Fuzzy find files (git files in current dir)
+map("n", "<C-p>", function() Snacks.picker.git_files({ untracked = false, submodules = false }) end, { desc = "Find files (git)" })
 
 -- Toggle autocomplete
 vim.g.cmp_enabled = true

@@ -16,16 +16,6 @@ return {
     opts = {
       explorer = { enabled = false },
       picker = {
-        sources = {
-          files = {
-            hidden = true,
-            ignored = true,
-          },
-          grep = {
-            hidden = true,
-            ignored = true,
-          },
-        },
         win = {
           input = {
             keys = {
@@ -35,9 +25,17 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      require("snacks").setup(opts)
-      -- Fix dark path colors in picker
+    init = function()
+      -- Fix dark path colors in picker after colorscheme loads
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#999999" })
+          vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#cccccc" })
+          vim.api.nvim_set_hl(0, "SnacksPickerPathHidden", { fg = "#888888" })
+          vim.api.nvim_set_hl(0, "SnacksPickerPath", { fg = "#999999" })
+        end,
+      })
+      -- Also set now in case colorscheme already loaded
       vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#999999" })
       vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#cccccc" })
       vim.api.nvim_set_hl(0, "SnacksPickerPathHidden", { fg = "#888888" })
