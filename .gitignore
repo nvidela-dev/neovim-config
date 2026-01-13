@@ -1,0 +1,25 @@
+# Lazy lock file (optional, some prefer to commit this)
+# lazy-lock.json
+
+# Plugin data
+.luarc.json
+
+# Local configuration
+lua/config/local.lua
+
+# Session files
+.session/
+
+# Undo files
+.undo/
+
+# Swap files
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

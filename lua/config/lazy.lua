@@ -1,0 +1,2 @@
+-- This file is auto-loaded by lazyvim
+-- Nothing needed here, handled in init.lua
